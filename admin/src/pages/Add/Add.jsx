@@ -1,8 +1,11 @@
 import { useState } from "react";
 import "./Add.css";
 import { assets } from "../../assets/assets";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const Add = () => {
+  const url = "http://localhost:8080";
   const [image, setImage] = useState(false);
   const [data, setData] = useState({
     name: "",
@@ -10,6 +13,9 @@ const Add = () => {
     price: "",
     category: "Salad",
   });
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
 
   const onChangeHandler = (event) => {
     const name = event.target.name;
@@ -18,6 +24,26 @@ const Add = () => {
   };
   const onSubmitHandler = async (event) => {
     event.preventDefault();
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("price", Number(data.price));
+    formData.append("category", data.category);
+    formData.append("image", image);
+
+    const response = await axios.post(`${url}/api/food/add`, formData);
+    if (response.data.success) {
+      setData({
+        name: "",
+        description: "",
+        price: "",
+        category: "Salad",
+      });
+      setImage(false);
+      toast.success(response.data.message);
+    } else {
+      toast.error(response.data.message);
+    }
   };
 
   return (
@@ -87,7 +113,7 @@ const Add = () => {
               value={data.price}
               type="Number"
               name="price"
-              placeholder="$20"
+              placeholder="₹20"
               required
             />
           </div>
