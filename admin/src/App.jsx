@@ -1,11 +1,25 @@
 import Navbar from "./components/Navbar/Navbar";
 import Sidebar from "./components/Sidebar/Sidebar";
+import { Route, Routes } from "react-router-dom";
+import Login from "./components/Login/Login";
+import Add from "./pages/Add/Add";
+import List from "./pages/List/List";
+import Orders from "./pages/Orders/Order";
 
 const App = () => {
   return (
     <div>
       <Navbar />
-      <Sidebar />
+      <hr />
+      <div className="app-content">
+        <Sidebar />
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/add" element={<Add />} />
+          <Route path="/list" element={<List />} />
+          <Route path="/orders" element={<Orders />} />
+        </Routes>
+      </div>
     </div>
   );
 };
