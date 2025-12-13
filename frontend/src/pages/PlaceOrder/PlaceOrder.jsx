@@ -51,6 +51,16 @@ const PlaceOrder = () => {
       toast.error("Errors!");
     }
   };
+
+  useEffect(() => {
+    if (!token) {
+      toast.error("Please Login first");
+      navigate("/cart");
+    } else if (getTotalCartAmount() === 0) {
+      toast.error("Please Add Items to Cart");
+      navigate("/cart");
+    }
+  }, [token]);
   // useEffect(() => {
   //   if (!token) {
   //     toast.error("Please Login first");
