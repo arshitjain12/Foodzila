@@ -3,10 +3,12 @@ import "./MyOrder.css";
 import { StoreContext } from "../../context/StoreContext";
 import axios from "axios";
 import { assets } from "../../assets/frontend_assets/assets";
+import { useNavigate } from "react-router-dom";
 
 const MyOrders = () => {
   const { url, token } = useContext(StoreContext);
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
 
   const fetchOrders = async () => {
     const response = await axios.post(
@@ -20,10 +22,10 @@ const MyOrders = () => {
   };
 
   useEffect(() => {
-    if (token) {
-      fetchOrders();
-    }
+    if (!token) return; // 🔴 redirect MAT karo
+    fetchOrders();
   }, [token]);
+
   return (
     <div className="my-orders">
       <h2>Orders</h2>

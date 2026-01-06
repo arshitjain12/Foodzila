@@ -6,7 +6,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // placing user order for frontend
 const placeOrder = async (req, res) => {
-  const frontend_url = "http://localhost:5174/"
+  const frontend_url = "http://localhost:5174"
   try {
     const newOrder = new orderModel({
       userId: req.body.userId,
@@ -98,5 +98,20 @@ const listOrders = async (req, res) => {
 };
 
 
-const updateStatus = async (req, res) => {}
+const updateStatus = async (req, res) => {
+   try {
+    let userData = await userModel.findById(req.body.userId);
+    if (userData && userData.role === "admin") {
+      await orderModel.findByIdAndUpdate(req.body.orderId, {
+        status: req.body.status,
+      });
+      res.json({ success: true, message: "Status Updated Successfully" });
+    }else{
+      res.json({ success: false, message: "You are not an admin" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: "Error" });
+  }
+}
 export { placeOrder, verifyOrder, userOrders, listOrders, updateStatus };

@@ -1,9 +1,14 @@
+import React, { useEffect, useState } from "react";
+import "./List.css";
 import axios from "axios";
 import { toast } from "react-toastify";
-import "./List.css";
-import { useState, useEffect } from "react";
+import { useContext } from "react";
+import { StoreContext } from "../../context/StoreContext";
+import { useNavigate } from "react-router-dom";
 
 const List = ({ url }) => {
+  const navigate = useNavigate();
+  const { token, admin } = useContext(StoreContext);
   const [list, setList] = useState([]);
 
   const fetchList = async () => {
@@ -14,18 +19,30 @@ const List = ({ url }) => {
       toast.error("Error");
     }
   };
+
   const removeFood = async (foodId) => {
-    const response = await axios.delete(`${url}/api/food/remove/${foodId}`);
+    try {
+      const response = await axios.delete(`${url}/api/food/remove/${foodId}`, {
+        headers: { token },
+      });
 
-    await fetchList();
-
-    if (response.data.success) {
-      toast.success(response.data.message);
-    } else {
-      toast.error("Error");
+      if (response.data.success) {
+        toast.success(response.data.message);
+        await fetchList();
+      } else {
+        toast.error("Error");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Delete failed");
     }
   };
+
   useEffect(() => {
+    if (!admin && !token) {
+      toast.error("Please Login First");
+      navigate("/");
+    }
     fetchList();
   }, []);
 

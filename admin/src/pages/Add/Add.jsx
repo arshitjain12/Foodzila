@@ -1,10 +1,16 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import "./Add.css";
 import { assets } from "../../assets/assets";
-import { toast } from "react-toastify";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { useContext } from "react";
+import { StoreContext } from "../../context/StoreContext";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Add = ({ url }) => {
+  const navigate = useNavigate();
+  const { token, admin } = useContext(StoreContext);
   const [image, setImage] = useState(false);
   const [data, setData] = useState({
     name: "",
@@ -12,15 +18,13 @@ const Add = ({ url }) => {
     price: "",
     category: "Salad",
   });
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
 
   const onChangeHandler = (event) => {
     const name = event.target.name;
     const value = event.target.value;
     setData((data) => ({ ...data, [name]: value }));
   };
+
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     const formData = new FormData();
@@ -30,7 +34,9 @@ const Add = ({ url }) => {
     formData.append("category", data.category);
     formData.append("image", image);
 
-    const response = await axios.post(`${url}/api/food/add`, formData);
+    const response = await axios.post(`${url}/api/food/add`, formData, {
+      headers: { token },
+    });
     if (response.data.success) {
       setData({
         name: "",
@@ -44,7 +50,12 @@ const Add = ({ url }) => {
       toast.error(response.data.message);
     }
   };
-
+  useEffect(() => {
+    if (!admin && !token) {
+      toast.error("Please Login First");
+      navigate("/");
+    }
+  }, []);
   return (
     <div className="add">
       <form onSubmit={onSubmitHandler} className="flex-col">
@@ -112,7 +123,7 @@ const Add = ({ url }) => {
               value={data.price}
               type="Number"
               name="price"
-              placeholder="₹20"
+              placeholder="$20"
               required
             />
           </div>
