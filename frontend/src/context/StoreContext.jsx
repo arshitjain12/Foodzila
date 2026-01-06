@@ -12,22 +12,21 @@ const StoreContextProvider = (props) => {
   const [food_list, setFoodList] = useState([]);
 
   const addToCart = async (itemId) => {
-    if (!cartItems[itemId]) {
-      setCartItems((prev) => ({ ...prev, [itemId]: 1 }));
-    } else {
-      setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
-    }
+    setCartItems((prev) => ({
+      ...prev,
+      [itemId]: (prev?.[itemId] || 0) + 1,
+    }));
+
     if (token) {
       const response = await axios.post(
         url + "/api/cart/add",
         { itemId },
         { headers: { token } }
       );
-      if (response.data.success) {
-        toast.success("item Added to Cart");
-      } else {
-        toast.error("Something went wrong");
-      }
+
+      response.data.success
+        ? toast.success("Item Added to Cart")
+        : toast.error("Something went wrong");
     }
   };
 
@@ -51,8 +50,10 @@ const StoreContextProvider = (props) => {
     let totalAmount = 0;
     for (const item in cartItems) {
       if (cartItems[item] > 0) {
-        let itemInfo = food_list.find((product) => product._id == item);
-        totalAmount += itemInfo.price * cartItems[item];
+        let itemInfo = food_list.find((product) => product._id === item);
+        if (itemInfo) {
+          totalAmount += itemInfo.price * cartItems[item];
+        }
       }
     }
     return totalAmount;
@@ -75,7 +76,7 @@ const StoreContextProvider = (props) => {
       {},
       { headers: { token } }
     );
-    setCartItems(response.data.cartData);
+    setCartItems(response.data.cartData || {});
   };
 
   useEffect(() => {
