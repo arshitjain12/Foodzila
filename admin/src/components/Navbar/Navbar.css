@@ -9,6 +9,7 @@
 }
 .navbar .profile {
   width: 40px;
+  border-radius: 50px;
 }
 .login-conditon {
   font-size: 20px;

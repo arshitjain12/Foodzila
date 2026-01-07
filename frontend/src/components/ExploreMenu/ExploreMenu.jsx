@@ -4,11 +4,11 @@ import "./ExploreMenu.css";
 const ExploreMenu = ({ category, setCategory }) => {
   return (
     <div className="explore-menu" id="explore-menu">
-      <h1>Explore our menu</h1>
+      <h1>Explore our's menu</h1>
       <p className="explore-menu-text">
-        Browse through our carefully crafted food categories, each made to
-        satisfy every mood and appetite. Pick your taste and let the feast
-        begin!
+        Explore our thoughtfully curated food categories, designed to match
+        every craving and occasion. Choose your favorite flavors and enjoy a
+        delightful dining experience.
       </p>
       <div className="explore-menu-list">
         {menu_list.map((item, index) => {
