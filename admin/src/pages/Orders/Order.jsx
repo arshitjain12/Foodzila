@@ -46,8 +46,15 @@ const Orders = ({ url }) => {
       return;
     }
 
-    fetchAllOrder();
+    fetchAllOrder(); // initial load hoga
+
+    const interval = setInterval(() => {
+      fetchAllOrder(); // auto refresh every 5 sec me
+    }, 5000);
+
+    return () => clearInterval(interval); // clean  hoga
   }, [admin, token]);
+
   return (
     <div className="order add">
       <p></p>
@@ -85,14 +92,19 @@ const Orders = ({ url }) => {
             </div>
             <p>Items: {order.items.length}</p>
             <p>₹{order.amount}</p>
-            <select
-              onChange={(event) => statusHandler(event, order._id)}
-              value={order.status}
-            >
-              <option value="Food Processing">Food Processing</option>
-              <option value="Out for delivery">Out for delivery</option>
-              <option value="Delivered">Delivered</option>
-            </select>
+
+            {order.status === "Cancelled" ? (
+              <span style={{ color: "red", fontWeight: "600" }}>Cancelled</span>
+            ) : (
+              <select
+                onChange={(event) => statusHandler(event, order._id)}
+                value={order.status}
+              >
+                <option value="Food Processing">Food Processing</option>
+                <option value="Out for delivery">Out for delivery</option>
+                <option value="Delivered">Delivered</option>
+              </select>
+            )}
           </div>
         ))}
       </div>

@@ -114,4 +114,39 @@ const updateStatus = async (req, res) => {
     res.json({ success: false, message: "Error" });
   }
 }
-export { placeOrder, verifyOrder, userOrders, listOrders, updateStatus };
+// cancel user order
+const cancelOrder = async (req, res) => {
+  try {
+    const { orderId, userId } = req.body;
+
+    const order = await orderModel.findById(orderId);
+
+    if (!order) {
+      return res.json({ success: false, message: "Order not found" });
+    }
+
+    // Only order owner can cancel
+    if (order.userId !== userId) {
+      return res.json({ success: false, message: "Not allowed" });
+    }
+
+    // Only allowed while food is processing
+    if (order.status !== "Food Processing") {
+      return res.json({
+        success: false,
+        message: "Order cannot be cancelled now",
+      });
+    }
+
+    order.status = "Cancelled";
+    await order.save();
+
+    res.json({ success: true, message: "Order cancelled successfully" });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: "Error cancelling order" });
+  }
+};
+
+
+export { placeOrder, verifyOrder, userOrders, listOrders, updateStatus,cancelOrder };
