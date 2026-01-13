@@ -6,6 +6,8 @@ import foodRouter from "./routes/foodRoute.js";
 import userRouter from "./routes/userRoutes.js";
 import cartRouter from "./routes/cartRoute.js";
 import orderRouter from "./routes/orderRoutes.js";
+import reviewRouter from "./routes/reviewRoute.js";
+
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -24,6 +26,8 @@ app.use("/images", express.static("uploads"));
 app.use("/api/user", userRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRouter);
+app.use("/api/review", reviewRouter);
+
 
 app.get("/", (req, res) => {
   res.send("API Working");
