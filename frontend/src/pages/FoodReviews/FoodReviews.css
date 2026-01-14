@@ -1,27 +1,126 @@
+/* --- 1. Page Container --- */
 .reviews-page {
-  max-width: 700px;
-  margin: auto;
-  padding: 20px;
+  max-width: 850px;
+  margin: 30px auto; /* Thoda margin kam kiya */
+  padding: 15px;
+  animation: fadeIn 0.6s ease-out;
 }
 
+/* Heading Style */
+.reviews-page h2 {
+  font-size: 24px;
+  color: #2d3436;
+  font-weight: 700;
+  margin-bottom: 20px;
+  position: relative;
+  padding-left: 15px;
+}
+
+.reviews-page h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  height: 22px;
+  width: 5px;
+  background-color: #ff6347;
+  border-radius: 5px;
+}
+
+/* --- 2. Review Card Design (COMPACT VERSION) --- */
 .review-card {
-  background: #fff;
-  border-radius: 8px;
-  padding: 12px;
-  margin-bottom: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  border-radius: 12px; /* Thoda chota radius */
+  padding: 15px 20px; /* 👇 Height yahan se kam hui (pehle 25px thi) */
+  margin-bottom: 15px; /* Cards ke beech ka gap kam kiya */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
 }
 
+.review-card:hover {
+  transform: translateY(-3px); /* Lift effect thoda subtle kiya */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  border-color: #ff6347;
+}
+
+/* --- 3. Header (User Name + Stars) --- */
 .review-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px; /* 👇 Name aur comment ke beech ka gap kam kiya */
+  border-bottom: 1px solid #f5f6fa;
+  padding-bottom: 8px;
+}
+
+/* User Name */
+.review-header b {
+  font-size: 16px; /* Font size thoda adjust kiya */
+  color: #2d3436;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+}
+
+/* --- 4. Star Ratings --- */
+.stars {
+  background: #fffbf0;
+  padding: 4px 10px; /* 👇 Stars ka badge chota kiya */
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
 }
 
 .stars span {
-  color: #ccc;
-  font-size: 16px;
+  font-size: 16px; /* Stars ka size adjust kiya */
+  color: #e0e0e0;
 }
 
 .stars .filled {
-  color: gold;
+  color: #ffd700;
+  text-shadow: 0 1px 3px rgba(255, 215, 0, 0.4);
+}
+
+/* --- 5. Review Comment --- */
+.review-card p {
+  font-size: 14px;
+  color: #636e72;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Empty State */
+.reviews-page p {
+  text-align: center;
+  color: #888;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+  .reviews-page {
+    padding: 10px;
+  }
+
+  .review-card {
+    padding: 15px;
+  }
+
+  .review-header b {
+    font-size: 15px;
+  }
 }
