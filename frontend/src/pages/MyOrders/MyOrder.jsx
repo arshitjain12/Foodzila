@@ -7,17 +7,18 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import ReviewModal from "../../components/ReviewModal.jsx/ReviewModal";
+import ItemSelectionModal from "../../components/ItemSelectionModal/ItemSelectionModal";
 
 const MyOrders = () => {
   const { url, token } = useContext(StoreContext);
   const [data, setData] = useState([]);
-  const [foodList, setFoodList] = useState([]);
+
+  const [pendingItems, setPendingItems] = useState([]);
+
   const [showReviewModal, setShowReviewModal] = useState(false);
+  const [showSelectionModal, setShowSelectionModal] = useState(false);
   const [selectedFoodId, setSelectedFoodId] = useState(null);
 
-  const navigate = useNavigate();
-
-  //cancel order
   const cancelOrder = async (orderId) => {
     const result = await Swal.fire({
       title: "Cancel Order?",
@@ -31,37 +32,30 @@ const MyOrders = () => {
 
     if (!result.isConfirmed) return;
 
-    const response = await axios.post(
-      url + "/api/order/cancel",
-      { orderId },
-      { headers: { token } }
-    );
+    try {
+      const response = await axios.post(
+        url + "/api/order/cancel",
+        { orderId },
+        { headers: { token } }
+      );
 
-    const data = response.data;
-
-    if (data.success) {
-      toast.success("Order cancelled successfully");
-      fetchOrders();
-    } else {
-      toast.error(data.message);
+      if (response.data.success) {
+        toast.success("Order cancelled successfully");
+        fetchOrders();
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Error cancelling order");
     }
   };
 
   const handleReview = async (order) => {
-    // ❌ Yeh check hata dein, kyunki token hai toh backend user nikal lega
-    /* if (!user) {
-      toast.error("User not loaded yet");
-      return;
-    }
-    */
-
     try {
       const res = await axios.post(
         `${url}/api/review/pending`,
-        {
-          orderId: order._id,
-          // userId: user._id, // ❌ Ise hata dein, middleware ise khud add karega
-        },
+        { orderId: order._id },
         { headers: { token } }
       );
 
@@ -76,7 +70,8 @@ const MyOrders = () => {
         setSelectedFoodId(pending[0].food);
         setShowReviewModal(true);
       } else {
-        setFoodList(pending);
+        setPendingItems(pending);
+        setShowSelectionModal(true);
       }
     } catch (error) {
       toast.error("Error fetching pending reviews");
@@ -84,26 +79,37 @@ const MyOrders = () => {
     }
   };
 
+  const handleItemSelect = (foodId) => {
+    setShowSelectionModal(false);
+    setSelectedFoodId(foodId);
+    setShowReviewModal(true);
+  };
+
   const fetchOrders = async () => {
-    const response = await axios.post(
-      url + "/api/order/userorders",
-      {},
-      { headers: { token } }
-    );
-    if (response.data.success) {
-      setData(response.data.data);
+    try {
+      const response = await axios.post(
+        url + "/api/order/userorders",
+        {},
+        { headers: { token } }
+      );
+      if (response.data.success) {
+        setData(response.data.data);
+      }
+    } catch (error) {
+      console.log("Error fetching orders");
     }
   };
+
   useEffect(() => {
     if (!token) return;
 
     fetchOrders();
 
-    if (!showReviewModal) {
+    if (!showReviewModal && !showSelectionModal) {
       const interval = setInterval(fetchOrders, 4000);
       return () => clearInterval(interval);
     }
-  }, [token, showReviewModal]);
+  }, [token, showReviewModal, showSelectionModal]);
 
   return (
     <div className="my-orders">
@@ -141,7 +147,7 @@ const MyOrders = () => {
                 <button
                   className="review-btn"
                   onClick={(e) => {
-                    e.stopPropagation(); // ✅ ADD THIS
+                    e.stopPropagation();
                     handleReview(order);
                   }}
                 >
@@ -157,10 +163,22 @@ const MyOrders = () => {
         })}
       </div>
 
+      {/* Single Review Modal */}
       {showReviewModal && (
         <ReviewModal
           foodId={selectedFoodId}
-          close={() => setShowReviewModal(false)}
+          close={() => {
+            setShowReviewModal(false);
+            fetchOrders();
+          }}
+        />
+      )}
+
+      {showSelectionModal && (
+        <ItemSelectionModal
+          items={pendingItems}
+          onSelect={handleItemSelect}
+          close={() => setShowSelectionModal(false)}
         />
       )}
     </div>

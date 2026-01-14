@@ -10,8 +10,6 @@ const ReviewModal = ({ foodId, close }) => {
   const [comment, setComment] = useState("");
 
   const submitReview = async () => {
-    // ❌ if (!user) return; // Yeh check hata dein
-
     if (rating === 0) {
       toast.error("Please select a rating star");
       return;
@@ -24,12 +22,11 @@ const ReviewModal = ({ foodId, close }) => {
           foodId,
           rating,
           comment,
-          // userId: user._id, // ❌ Ise hata dein, middleware ise handle karega
         },
         { headers: { token } }
       );
 
-      toast.success("Review added successfully"); // Feedback add karein
+      toast.success("Review added successfully");
       close();
     } catch (error) {
       toast.error(error.response?.data?.message || "Error adding review");
