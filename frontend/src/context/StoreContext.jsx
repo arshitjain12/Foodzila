@@ -82,30 +82,23 @@ const StoreContextProvider = (props) => {
 
   useEffect(() => {
     async function loadData() {
-      await fetchFoodList();
+      await fetchFoodList(); // Pehli baar load karo
 
       const savedToken = localStorage.getItem("token");
       if (savedToken) {
         setToken(savedToken);
         await loadCardData(savedToken);
-
-        // User profile load karte waqt try-catch lagayein
-        try {
-          const res = await axios.post(
-            // Make sure ye endpoint backend me exist krta ho
-            url + "/api/user/profile", // Agar ye route nahi hai to banayein
-            {},
-            { headers: { token: savedToken } }
-          );
-          if (res.data.success) {
-            setUser(res.data.user);
-          }
-        } catch (err) {
-          console.log("Error loading user profile", err);
-        }
       }
     }
     loadData();
+
+    // 👇 MAGIC CODE: Har 5 Second (5000ms) mein list refresh hogi
+    const interval = setInterval(() => {
+      fetchFoodList();
+    }, 5000);
+
+    // Jab component band ho, to interval bhi band ho jaye (Cleanup)
+    return () => clearInterval(interval);
   }, []);
   const contextValue = {
     food_list,
@@ -118,6 +111,7 @@ const StoreContextProvider = (props) => {
     token,
     setToken,
     user,
+    fetchFoodList,
   };
 
   return (

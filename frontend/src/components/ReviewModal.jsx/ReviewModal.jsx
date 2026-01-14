@@ -5,7 +5,7 @@ import "./ReviewModal.css";
 import { toast } from "react-toastify";
 
 const ReviewModal = ({ foodId, close }) => {
-  const { url, token } = useContext(StoreContext);
+  const { url, token, fetchFoodList } = useContext(StoreContext);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
 
@@ -25,6 +25,7 @@ const ReviewModal = ({ foodId, close }) => {
         },
         { headers: { token } }
       );
+      await fetchFoodList();
 
       toast.success("Review added successfully");
       close();
