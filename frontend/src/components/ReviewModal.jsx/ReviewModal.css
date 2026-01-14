@@ -1,0 +1,33 @@
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  pointer-events: auto;
+}
+
+.modal-box {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 320px;
+}
+
+.stars span {
+  font-size: 22px;
+  cursor: pointer;
+}
+
+textarea {
+  width: 100%;
+  margin-top: 10px;
+  min-height: 70px;
+}
+
+button {
+  margin-top: 10px;
+  margin-right: 5px;
+}

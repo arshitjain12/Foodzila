@@ -2,9 +2,13 @@ import { useContext } from "react";
 import { assets } from "../../assets/frontend_assets/assets";
 import { StoreContext } from "../../context/StoreContext";
 import "./FoodItem.css";
+import StarRating from "../StarRating/StarRating";
+import { useNavigate } from "react-router-dom";
 
-const FoodItem = ({ id, name, price, description, image }) => {
+const FoodItem = ({ id, name, price, description, image, avgRating }) => {
   // const [itemCount, setItemCount] = useState(0);
+  const navigate = useNavigate();
+
   const { cartItems, addToCart, removeFromCart, url } =
     useContext(StoreContext);
   return (
@@ -41,7 +45,13 @@ const FoodItem = ({ id, name, price, description, image }) => {
       <div className="food-item-info">
         <div className="food-item-name-rating">
           <p>{name}</p>
-          <img src={assets.rating_starts} alt="" />
+
+          <div
+            onClick={() => navigate(`/reviews/${id}`)}
+            style={{ cursor: "pointer" }}
+          >
+            <StarRating value={Math.round(avgRating || 0)} />
+          </div>
         </div>
         <p className="food-item-desc">{description}</p>
         <p className="food-item-price">₹ {price}</p>

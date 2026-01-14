@@ -10,6 +10,7 @@ const StoreContextProvider = (props) => {
   const url = "http://localhost:8080";
   const [token, setToken] = useState("");
   const [food_list, setFoodList] = useState([]);
+  const [user, setUser] = useState(null);
 
   const addToCart = async (itemId) => {
     setCartItems((prev) => ({
@@ -82,9 +83,26 @@ const StoreContextProvider = (props) => {
   useEffect(() => {
     async function loadData() {
       await fetchFoodList();
-      if (localStorage.getItem("token")) {
-        setToken(localStorage.getItem("token"));
-        await loadCardData(localStorage.getItem("token"));
+
+      const savedToken = localStorage.getItem("token");
+      if (savedToken) {
+        setToken(savedToken);
+        await loadCardData(savedToken);
+
+        // User profile load karte waqt try-catch lagayein
+        try {
+          const res = await axios.post(
+            // Make sure ye endpoint backend me exist krta ho
+            url + "/api/user/profile", // Agar ye route nahi hai to banayein
+            {},
+            { headers: { token: savedToken } }
+          );
+          if (res.data.success) {
+            setUser(res.data.user);
+          }
+        } catch (err) {
+          console.log("Error loading user profile", err);
+        }
       }
     }
     loadData();
@@ -99,6 +117,7 @@ const StoreContextProvider = (props) => {
     url,
     token,
     setToken,
+    user,
   };
 
   return (

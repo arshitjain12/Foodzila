@@ -6,7 +6,7 @@ import Order from "../models/orderModel.js";
 export const addReview = async (req, res) => {
   try {
     const { foodId, rating, comment } = req.body;
-    const userId = req.body.userId;   // 🔥 middleware se
+    const userId = req.body.userId;   
 
     if (!foodId || !rating) {
       return res.json({

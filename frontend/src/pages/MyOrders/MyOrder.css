@@ -53,3 +53,12 @@
   cursor: pointer;
   border-radius: 4px;
 }
+.review-btn {
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+}
+.cancel-btn {
+  position: relative;
+  z-index: 10;
+}

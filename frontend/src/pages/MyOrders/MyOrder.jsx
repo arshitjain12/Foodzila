@@ -6,10 +6,15 @@ import { assets } from "../../assets/frontend_assets/assets";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import ReviewModal from "../../components/ReviewModal.jsx/ReviewModal";
 
 const MyOrders = () => {
   const { url, token } = useContext(StoreContext);
   const [data, setData] = useState([]);
+  const [foodList, setFoodList] = useState([]);
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [selectedFoodId, setSelectedFoodId] = useState(null);
+
   const navigate = useNavigate();
 
   //cancel order
@@ -42,6 +47,43 @@ const MyOrders = () => {
     }
   };
 
+  const handleReview = async (order) => {
+    // ❌ Yeh check hata dein, kyunki token hai toh backend user nikal lega
+    /* if (!user) {
+      toast.error("User not loaded yet");
+      return;
+    }
+    */
+
+    try {
+      const res = await axios.post(
+        `${url}/api/review/pending`,
+        {
+          orderId: order._id,
+          // userId: user._id, // ❌ Ise hata dein, middleware ise khud add karega
+        },
+        { headers: { token } }
+      );
+
+      const pending = res.data.pending;
+
+      if (pending.length === 0) {
+        Swal.fire("All items already reviewed");
+        return;
+      }
+
+      if (pending.length === 1) {
+        setSelectedFoodId(pending[0].food);
+        setShowReviewModal(true);
+      } else {
+        setFoodList(pending);
+      }
+    } catch (error) {
+      toast.error("Error fetching pending reviews");
+      console.error(error);
+    }
+  };
+
   const fetchOrders = async () => {
     const response = await axios.post(
       url + "/api/order/userorders",
@@ -52,18 +94,16 @@ const MyOrders = () => {
       setData(response.data.data);
     }
   };
-
   useEffect(() => {
     if (!token) return;
 
-    fetchOrders(); // first load ye hoga
+    fetchOrders();
 
-    const interval = setInterval(() => {
-      fetchOrders();
-    }, 5000); // every 5 seconds me ui update
-
-    return () => clearInterval(interval);
-  }, [token]);
+    if (!showReviewModal) {
+      const interval = setInterval(fetchOrders, 4000);
+      return () => clearInterval(interval);
+    }
+  }, [token, showReviewModal]);
 
   return (
     <div className="my-orders">
@@ -97,6 +137,18 @@ const MyOrders = () => {
                 </button>
               )}
 
+              {order.status === "Delivered" && (
+                <button
+                  className="review-btn"
+                  onClick={(e) => {
+                    e.stopPropagation(); // ✅ ADD THIS
+                    handleReview(order);
+                  }}
+                >
+                  Add Review
+                </button>
+              )}
+
               {order.status === "Cancelled" && (
                 <p style={{ color: "red", fontWeight: "600" }}>Cancelled</p>
               )}
@@ -104,6 +156,13 @@ const MyOrders = () => {
           );
         })}
       </div>
+
+      {showReviewModal && (
+        <ReviewModal
+          foodId={selectedFoodId}
+          close={() => setShowReviewModal(false)}
+        />
+      )}
     </div>
   );
 };
