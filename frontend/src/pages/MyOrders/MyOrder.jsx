@@ -80,9 +80,9 @@ const MyOrders = () => {
   };
 
   const handleItemSelect = (foodId) => {
-    setShowSelectionModal(false);
-    setSelectedFoodId(foodId);
-    setShowReviewModal(true);
+    setShowSelectionModal(false); // foodselection close kiye
+    setSelectedFoodId(foodId); // food decided
+    setShowReviewModal(true); // review form ,single pending item or  after selection
   };
 
   const fetchOrders = async () => {
@@ -174,6 +174,7 @@ const MyOrders = () => {
         />
       )}
 
+      {/* multiple food review  */}
       {showSelectionModal && (
         <ItemSelectionModal
           items={pendingItems}

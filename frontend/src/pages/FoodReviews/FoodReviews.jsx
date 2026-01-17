@@ -42,3 +42,4 @@ const FoodReviews = () => {
 };
 
 export default FoodReviews;
+// to see review of individual items pure page me

@@ -10,7 +10,7 @@ const orderSchema = new mongoose.Schema({
       "Food Processing",
       "Out for delivery",
       "Delivered",
-      "Cancelled", // ✅ NEW
+      "Cancelled", //  NEW
     ],
  default: "Food Processing" },
   date: { type: Date, default: Date.now() },
