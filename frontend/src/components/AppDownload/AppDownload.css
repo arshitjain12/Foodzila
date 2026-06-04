@@ -1,22 +1,300 @@
+
 .app-download {
-  margin: auto auto;
-  margin-top: 100px;
-  font-size: max(3vw, 20px);
-  text-align: center;
-  font-weight: 500;
+  margin-top: 80px;
+  background: #0D0D0D;
+  border-radius: 20px;
+  overflow: hidden;
 }
+
+.app-download-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 340px;
+}
+
+
+.app-download-left {
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+}
+
+.app-download-left .sec-pre {
+  font-size: 11px;
+  font-weight: 700;
+  color: #FF6B35;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.app-download-left h2 {
+  font-size: max(1.8vw, 20px);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+.app-download-left h2 em {
+  color: #FF4500;
+  font-style: normal;
+}
+
+.app-download-left p {
+  font-size: max(0.85vw, 13px);
+  color: #666;
+  line-height: 1.7;
+  max-width: 320px;
+  margin: 0;
+}
+
+
+.app-feats {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.app-feat {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #aaa;
+}
+
+.feat-dot {
+  width: 7px;
+  height: 7px;
+  background: #FF4500;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+
 .app-download-platforms {
   display: flex;
-  justify-content: center;
-  gap: max(2vw, 10px);
-  margin-top: 40px;
+  gap: 12px;
+  align-items: center;
+  margin-top: 4px;
 }
+
 .app-download-platforms img {
-  width: max(30vw, 120px);
-  max-width: 180px;
-  transition: 0.5s;
+  height: 44px;
+  width: auto;
+  object-fit: contain;
   cursor: pointer;
+  border-radius: 10px;
+  transition: transform 0.2s, opacity 0.2s;
+  border: 1px solid #2a2a2a;
 }
+
 .app-download-platforms img:hover {
-  transform: scale(1.05);
+  transform: scale(1.04);
+  opacity: 0.9;
+}
+
+.app-download-right {
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  position: relative;
+}
+
+
+.phone-mockup {
+  width: 110px;
+  height: 210px;
+  background: #1a1a1a;
+  border-radius: 24px;
+  border: 2px solid #2a2a2a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 10px 10px;
+  gap: 8px;
+}
+
+.phone-notch {
+  width: 30px;
+  height: 5px;
+  background: #2a2a2a;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.phone-screen {
+  flex: 1;
+  width: 100%;
+  background: #111;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 8px;
+  gap: 6px;
+  overflow: hidden;
+}
+
+.phone-logo {
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+
+.phone-logo em {
+  color: #FF4500;
+  font-style: normal;
+}
+
+.phone-line {
+  width: 50px;
+  height: 2px;
+  background: #FF4500;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.phone-items {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.phone-item {
+  height: 7px;
+  background: #1f1f1f;
+  border-radius: 3px;
+  width: 100%;
+}
+
+.phone-item.hi {
+  background: #FF4500;
+  opacity: 0.35;
+}
+
+.phone-item.short {
+  width: 65%;
+}
+
+.phone-item.mid {
+  opacity: 0.5;
+}
+
+
+.phone-card {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #1a1a1a;
+  border-radius: 8px;
+  padding: 6px 8px;
+  width: 100%;
+  margin-top: 2px;
+}
+
+.phone-card-dot {
+  width: 20px;
+  height: 20px;
+  background: #FF4500;
+  border-radius: 6px;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.phone-card-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.pct-top {
+  height: 5px;
+  background: #333;
+  border-radius: 2px;
+  width: 100%;
+}
+
+.pct-bot {
+  height: 4px;
+  background: #2a2a2a;
+  border-radius: 2px;
+  width: 70%;
+}
+
+.phone-card-price {
+  font-size: 9px;
+  font-weight: 700;
+  color: #FF4500;
+}
+
+.phone-home-bar {
+  width: 32px;
+  height: 3px;
+  background: #2a2a2a;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+
+.app-float-badge {
+  position: absolute;
+  bottom: 32px;
+  left: 24px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.badge-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.badge-t {
+  font-size: 12px;
+  font-weight: 700;
+  color: #111;
+}
+
+.badge-s {
+  font-size: 11px;
+  color: #FF4500;
+  font-weight: 600;
+}
+
+
+@media (max-width: 1050px) {
+  .app-download-left { padding: 36px 28px; }
+  .app-download-left h2 { font-size: 20px; }
+}
+
+@media (max-width: 750px) {
+  .app-download-inner { grid-template-columns: 1fr; }
+  .app-download-right { display: none; }
+  .app-download-left {
+    padding: 36px 24px;
+    align-items: center;
+    text-align: center;
+  }
+  .app-download-left p { max-width: 100%; }
+  .app-feats { align-items: flex-start; }
+  .app-download-platforms { justify-content: center; }
+}
+
+@media (max-width: 480px) {
+  .app-download { border-radius: 14px; margin-top: 50px; }
+  .app-download-left { padding: 28px 20px; gap: 12px; }
+  .app-download-left h2 { font-size: 18px; }
 }
