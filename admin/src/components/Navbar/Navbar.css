@@ -1,16 +1,174 @@
+
 .navbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 8px 4%;
+  justify-content: space-between;
+  padding: 14px 32px;
+  background: #fff;
+  border-bottom: 1px solid #f0ebe3;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
-.navbar .logo {
-  width: max(10%, 80px);
+
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
-.navbar .profile {
-  width: 40px;
-  border-radius: 50px;
+
+.navbar-left .logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  border-radius: 10px;
 }
-.login-conditon {
-  font-size: 20px;
+
+.navbar-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.brand-name {
+  font-size: 16px;
+  font-weight: 800;
+  color: #111;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.brand-name em {
+  color: #FF4500;
+  font-style: normal;
+}
+
+.brand-tag {
+  font-size: 10px;
+  font-weight: 600;
+  color: #aaa;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+
+.admin-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #FFF3F0;
+  color: #FF4500;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.02em;
+}
+
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  background: #FF4500;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+
+.navbar-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s, transform 0.15s;
+  letter-spacing: 0.02em;
+}
+
+.navbar-btn i {
+  font-size: 16px;
+}
+
+.navbar-btn:active {
+  transform: scale(0.97);
+}
+
+
+.logout-btn {
+  background: #111;
+  color: #fff;
+}
+
+.logout-btn:hover {
+  background: #FF4500;
+}
+
+
+.login-btn {
+  background: #FF4500;
+  color: #fff;
+}
+
+.login-btn:hover {
+  background: #e03d00;
+}
+
+
+.navbar-avatar {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid #f0ebe3;
+  overflow: hidden;
+  background: #fafaf8;
+  flex-shrink: 0;
+}
+
+.navbar-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+
+.avatar-status {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 8px;
+  height: 8px;
+  background: #27ae60;
+  border-radius: 50%;
+  border: 1.5px solid #fff;
+}
+
+
+@media (max-width: 750px) {
+  .navbar { padding: 12px 20px; }
+  .navbar-brand { display: none; }
+  .admin-badge { display: none; }
+  .navbar-btn span { display: none; }
+  .navbar-btn { padding: 9px 12px; }
+}
+
+@media (max-width: 480px) {
+  .navbar { padding: 10px 16px; }
 }
