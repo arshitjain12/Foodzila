@@ -62,7 +62,7 @@ const AppDownload = () => {
 
           {/* float badge */}
           <div className="app-float-badge">
-            <span className="badge-icon">🚀</span>
+            <span className="badge-icon"> </span>
             <div>
               <div className="badge-t">50k+ Downloads</div>
               <div className="badge-s">4.9 ★ rated</div>

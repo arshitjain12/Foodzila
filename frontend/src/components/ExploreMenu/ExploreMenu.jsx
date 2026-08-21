@@ -3,14 +3,14 @@ import "./ExploreMenu.css";
 
 const ExploreMenu = ({ category, setCategory }) => {
   const categoryEmoji = {
-    "Salad": "🥗",
-    "Rolls": "🌯",
-    "Deserts": "🍰",
-    "Sandwich": "🥪",
-    "Cake": "🎂",
-    "Pure Veg": "🥦",
-    "Pasta": "🍝",
-    "Noodles": "🍜",
+    "Salad": "",
+    "Rolls": "",
+    "Deserts": "",
+    "Sandwich": "",
+    "Cake": "",
+    "Pure Veg": "",
+    "Pasta": "",
+    "Noodles": "",
   };
 
   return (
@@ -36,7 +36,7 @@ const ExploreMenu = ({ category, setCategory }) => {
             className={`cat-chip ${category === item.menu_name ? "active" : ""}`}
           >
             <span className="cat-emoji">
-              {categoryEmoji[item.menu_name] || "🍽"}
+              {categoryEmoji[item.menu_name] || ""}
             </span>
             <span className="cat-label">{item.menu_name}</span>
           </div>
